@@ -31,6 +31,9 @@ public class SetorService {
     }
 
     public void deletarSetor(Long id){
+        if (!setorRepository.existsById(id)){
+            throw new RuntimeException("Setor não criado ou encontrado com o id: " + id);
+        }
         Setor salvo = buscarPorId(id);
         setorRepository.delete(salvo);
     }
