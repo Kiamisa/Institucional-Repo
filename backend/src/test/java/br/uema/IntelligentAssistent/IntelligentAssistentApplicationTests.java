@@ -1,4 +1,4 @@
-package br.uema.ppg.IntelligentAssistent;
+package br.uema.IntelligentAssistent;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

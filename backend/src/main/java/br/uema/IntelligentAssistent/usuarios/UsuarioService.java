@@ -1,4 +1,4 @@
-package br.uema.ppg.IntelligentAssistent.usuarios;
+package br.uema.IntelligentAssistent.usuarios;
 
 import org.springframework.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

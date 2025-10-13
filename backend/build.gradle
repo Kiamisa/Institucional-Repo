@@ -6,7 +6,7 @@ plugins {
 
 group = 'br.uema.ppg'
 version = '0.0.1-SNAPSHOT'
-description = 'Assistente inteligente para sistema da PPG - UEMA'
+description = 'Assistente inteligente para sistema - UEMA'
 
 java {
 	toolchain {

@@ -1,4 +1,4 @@
-package br.uema.ppg.IntelligentAssistent.config;
+package br.uema.IntelligentAssistent.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

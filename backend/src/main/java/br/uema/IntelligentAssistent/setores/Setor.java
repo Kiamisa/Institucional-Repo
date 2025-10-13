@@ -1,6 +1,5 @@
-package br.uema.ppg.IntelligentAssistent.usuarios;
+package br.uema.IntelligentAssistent.setores;
 
-import br.uema.ppg.IntelligentAssistent.setores.Setor;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -8,8 +7,8 @@ import java.time.OffsetDateTime;
 
 @Data //Anotação para gerar Getters, Setters, toString, etc.
 @Entity
-@Table(name = "usuarios")
-public class Usuario {
+@Table(name = "setores")
+public class Setor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,17 +18,7 @@ public class Usuario {
     private String nome;
 
     @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(nullable = false)
-    private String senha;
-
-    @ManyToOne(fetch = FetchType.LAZY)//relacionamento
-    @JoinColumn(name = "setor_id", nullable = false) //Mapeamento da chave estrangeira
-    private Setor setor;
-
-    @Column(nullable = false)
-    private String perfil;
+    private String sigla;
 
     @Column(name = "created_at", updatable = false)
     private OffsetDateTime createdAt;
