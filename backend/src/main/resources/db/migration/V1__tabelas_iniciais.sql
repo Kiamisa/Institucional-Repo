@@ -1,6 +1,6 @@
 -- Tabela para armazenar os setores da instituição
 CREATE TABLE setores (
-                         id SERIAL PRIMARY KEY,
+                         id BIGSERIAL PRIMARY KEY,
                          nome VARCHAR(100) NOT NULL,
                          sigla VARCHAR(20) NOT NULL UNIQUE,
                          created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
@@ -8,7 +8,7 @@ CREATE TABLE setores (
 
 -- Tabela para gerenciar os usuários do sistema
 CREATE TABLE usuarios (
-                          id SERIAL PRIMARY KEY,
+                          id BIGSERIAL PRIMARY KEY,
                           nome VARCHAR(255) NOT NULL,
                           email VARCHAR(255) NOT NULL UNIQUE,
                           senha VARCHAR(255) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE usuarios (
 
 -- Tabela central para armazenar os metadados dos documentos
 CREATE TABLE documentos (
-                            id SERIAL PRIMARY KEY,
+                            id BIGSERIAL PRIMARY KEY,
                             titulo VARCHAR(255) NOT NULL,
                             descricao TEXT,
                             tipo VARCHAR(100) NOT NULL, -- Ex: 'Edital', 'Relatório', 'Ata'
@@ -32,7 +32,7 @@ CREATE TABLE documentos (
 
 -- Tabela para controle de versionamento dos documentos
 CREATE TABLE versoes_documento (
-                                   id SERIAL PRIMARY KEY,
+                                   id BIGSERIAL PRIMARY KEY,
                                    documento_id INTEGER NOT NULL REFERENCES documentos(id) ON DELETE CASCADE,
                                    versao INTEGER NOT NULL,
                                    caminho_arquivo VARCHAR(255) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE versoes_documento (
 
 -- Tabela para logs de acesso e modificações, garantindo rastreabilidade
 CREATE TABLE logs (
-                      id SERIAL PRIMARY KEY,
+                      id BIGSERIAL PRIMARY KEY,
                       acao VARCHAR(255) NOT NULL, -- Ex: 'UPLOAD', 'DOWNLOAD', 'LOGIN'
                       descricao TEXT,
                       usuario_id INTEGER REFERENCES usuarios(id),
@@ -54,7 +54,7 @@ CREATE TABLE logs (
 
 -- Tabela para gerenciar o workflow de aprovação de documentos
 CREATE TABLE fluxo_aprovacao (
-                                 id SERIAL PRIMARY KEY,
+                                 id BIGSERIAL PRIMARY KEY,
                                  documento_id INTEGER NOT NULL REFERENCES documentos(id),
                                  usuario_aprovador_id INTEGER REFERENCES usuarios(id),
                                  status VARCHAR(50) NOT NULL, -- Ex: 'PENDENTE', 'APROVADO', 'REJEITADO'
@@ -64,10 +64,10 @@ CREATE TABLE fluxo_aprovacao (
 );
 
 -- Inserindo dados iniciais na tabela de setores conforme definido no projeto
-INSERT INTO setores (nome, sigla) VALUES
-                                      ('Pró-Reitoria de Gestão de Pessoas', 'PROGEP'),
-                                      ('Pró-Reitoria de Planejamento e Administração', 'PROPLAD'),
-                                      ('Protocolo Geral', 'Protocolo'),
-                                      ('Pró-Reitoria de Extensão e Assuntos Estudantis', 'PROEXAE'),
-                                      ('Programa de Pós-Graduação', 'PPG'),
-                                      ('Pró-Reitoria de Graduação', 'PROG');
+--INSERT INTO setores (nome, sigla) VALUES
+                                      --('Pró-Reitoria de Gestão de Pessoas', 'PROGEP'),
+                                      --('Pró-Reitoria de Planejamento e Administração', 'PROPLAD'),
+                                      --('Protocolo Geral', 'Protocolo'),
+                                      --('Pró-Reitoria de Extensão e Assuntos Estudantis', 'PROEXAE'),
+                                      --('Programa de Pós-Graduação', 'PPG'),
+                                      --('Pró-Reitoria de Graduação', 'PROG');
