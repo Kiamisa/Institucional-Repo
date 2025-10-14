@@ -1,13 +1,18 @@
 package br.uema.IntelligentAssistent.config;
 
+import br.uema.IntelligentAssistent.auth.JwtAuthFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -19,22 +24,30 @@ import java.util.Arrays;
 public class SecurityConfig{
     /**
      * Este bean define a cadeia de filtros de segurança, que é o núcleo da configuração de segurança.
-     * É aqui que você define as regras de proteção para os seus endpoints HTTP.
      */
+    @Autowired
+    private JwtAuthFilter jwtAuthFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, CorsConfigurationSource corsConfigurationSource) throws Exception {
         http
                 // Configuração do CORS usando o bean 'corsConfigurationSource'
-                .cors(cors -> cors.configurationSource(corsConfigurationSource))
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 //Desabilitando o Cross-Site Request Forgery
                 .csrf(csrf -> csrf.disable())
+                // Define a gestão de sessão como STATELESS, essencial para APIs REST com JWT
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 //Definindo as regras de autorização para fazer as requisições
                 .authorizeHttpRequests(authorize -> authorize
-                // Permissao para qualquer um acessar os ENDPOINTS
-                        //TODO: Refinar as regras de ENDPOINTS
-                         .anyRequest().permitAll())
-                .httpBasic(Customizer.withDefaults());
+                // Permissao para o endpoint de login
+                         .requestMatchers("/auth/**").permitAll()
+                        //IMPORTANTE: Caso seja necessário criar um usuario
+                                .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+                        //Todas requisicoes exigirao autenticacao
+                         .anyRequest().authenticated()
+                );
+        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 
@@ -47,7 +60,7 @@ public class SecurityConfig{
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         //Definição da origem permitida (URL Vue.js)
-        configuration.setAllowedOrigins(Arrays.asList("https://localhost:5173"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
         //Definição dos métodos HTTP permitidos
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         //Definição dos cabeçalhos permitidos

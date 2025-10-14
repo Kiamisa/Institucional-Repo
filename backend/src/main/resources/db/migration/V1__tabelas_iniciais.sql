@@ -64,10 +64,10 @@ CREATE TABLE fluxo_aprovacao (
 );
 
 -- Inserindo dados iniciais na tabela de setores conforme definido no projeto
---INSERT INTO setores (nome, sigla) VALUES
-                                      --('Pró-Reitoria de Gestão de Pessoas', 'PROGEP'),
-                                      --('Pró-Reitoria de Planejamento e Administração', 'PROPLAD'),
-                                      --('Protocolo Geral', 'Protocolo'),
-                                      --('Pró-Reitoria de Extensão e Assuntos Estudantis', 'PROEXAE'),
-                                      --('Programa de Pós-Graduação', 'PPG'),
-                                      --('Pró-Reitoria de Graduação', 'PROG');
+INSERT INTO setores (nome, sigla) VALUES
+                                      ('Pró-Reitoria de Gestão de Pessoas', 'PROGEP'),
+                                      ('Pró-Reitoria de Planejamento e Administração', 'PROPLAD'),
+                                      ('Protocolo Geral', 'Protocolo'),
+                                      ('Pró-Reitoria de Extensão e Assuntos Estudantis', 'PROEXAE'),
+                                      ('Programa de Pós-Graduação', 'PPG'),
+                                      ('Pró-Reitoria de Graduação', 'PROG');
