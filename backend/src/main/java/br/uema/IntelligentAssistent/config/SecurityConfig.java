@@ -24,7 +24,6 @@ import java.util.Arrays;
 public class SecurityConfig{
     /**
      * Este bean define a cadeia de filtros de segurança, que é o núcleo da configuração de segurança.
-     * É aqui que você define as regras de proteção para os seus endpoints HTTP.
      */
     @Autowired
     private JwtAuthFilter jwtAuthFilter;
@@ -43,7 +42,7 @@ public class SecurityConfig{
                 // Permissao para o endpoint de login
                          .requestMatchers("/auth/**").permitAll()
                         //IMPORTANTE: Caso seja necessário criar um usuario
-                                //.requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
                         //Todas requisicoes exigirao autenticacao
                          .anyRequest().authenticated()
                 );
@@ -61,7 +60,7 @@ public class SecurityConfig{
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         //Definição da origem permitida (URL Vue.js)
-        configuration.setAllowedOrigins(Arrays.asList("https://localhost:5173"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
         //Definição dos métodos HTTP permitidos
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         //Definição dos cabeçalhos permitidos

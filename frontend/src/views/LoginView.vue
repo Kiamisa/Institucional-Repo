@@ -15,8 +15,9 @@
             </div>            
             <div class="input-group">
               <label for="password">senha</label>
-              <input type="password" id="password" v-model="senha" placeholder="Digite sua senha" required>
+              <input type="password" id="password" v-model="password" placeholder="Digite sua senha" required>
             </div>
+            <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
             <button type="submit">Entrar</button>
           </form>
         </div>
@@ -25,41 +26,54 @@
 
 <script>
 import apiClient from '@/services/api'; // importação do serviço da  API
+
 export default{
   name: 'LoginView',
   data(){
     return{
       // cria as variaveis que serao ligadas aos inputs com v-model
       email: '',
-      senha: ''
+      password: '',
+      errorMessage: null
     };
   },
 
   methods:{
     // reescreve o método de login para ser assicrono usando Axios
     async fazerLogin(){
+      this.errorMessage = null;
       // validacao para campos vazios
-      if (!this.email || !this.senha){
+      if (!this.email || !this.password){
         alert('Favor preencher email e a senha.');
         return;
       }
       try{
         // Exibir os dados que serão enviados ao console
-        console.log('Enviando dados para o login: ', {email : this.email, senha : this.senha});
-        // TODO: Criar endpoint para /login POST
-        const response = await apiClient.post('/login',{
-          username: this.email,
-          password: this.senha
+        const response = await apiClient.post('/auth/login',{
+          email: this.email,
+          password: this.password
         });
+        //Para extração do token
+        const token = response.data.token;
+
+        //Para guardar o token
+        localStorage.setItem('user-token', token);
+
+        //Configuração para enviar o token para futuras requisições
+        apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+        //Redirecionar o utilizador para o dashboard
+        this.$router.push('/dashboard');
 
         //Se bem sucedido
         alert('Login bem sucedido!');
-        console.log('Resposta do servidor:', response.data);
         //Redirecionar para o dashboard
       } catch(error){
         //Se falhar
-        alert('Falha no login. Verifique email e senha.');
-        console.error('Erro ao fazer login', error);
+        this.errorMessage = 'Falha no login. Verifique as suas credenciais.';
+        console.error('Erro ao fazer login:', error);
+        // Garante que qualquer token antigo seja removido em caso de falha
+        localStorage.removeItem('user-token');
       }
     }
   }
@@ -110,5 +124,11 @@ button {
   color: white;
   font-size: 16px;
   cursor: pointer;
+}
+
+.error-message{
+  color: red;
+  margin-bottom:15px;
+  font-size: 14.px;
 }
 </style>
