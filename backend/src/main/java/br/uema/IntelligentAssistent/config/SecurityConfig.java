@@ -65,6 +65,10 @@ public class SecurityConfig{
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         //Definição dos cabeçalhos permitidos
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        //Permitir envio de credenciais (cookies, cabeçalhos de autorização, etc.)
+        configuration.setAllowCredentials(true);
+        //Definição do tempo máximo de cache da configuração CORS(1 Hora)
+        configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         //Aplicação da configuração de CORS para todos os ENDPOINTS da aplicação
@@ -74,7 +78,7 @@ public class SecurityConfig{
 
     /**
      * Este bean cria uma instância do BCryptPasswordEncoder, que é o algoritmo
-     * recomendado para fazer o hash de senhas. Ele será injetado nos seus serviços.
+     * recomendado para fazer o hash de senhas. Ele será injetado nos serviços.
      */
     @Bean
     public PasswordEncoder passwordEncoder(){
