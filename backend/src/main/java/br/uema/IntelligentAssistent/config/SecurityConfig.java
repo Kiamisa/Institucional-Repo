@@ -40,9 +40,14 @@ public class SecurityConfig{
                 //Definindo as regras de autorização para fazer as requisições
                 .authorizeHttpRequests(authorize -> authorize
                 // Permissao para o endpoint de login
-                         .requestMatchers("/auth/**").permitAll()
-                        //IMPORTANTE: Caso seja necessário criar um usuario
-                                .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        //IMPORTANTE: Essa linha permitirá que usuários não cadastrados possam visualizar a página sem autenticação
+                        //TODO: Criar páginas para notícias, editais, eventos e contatos que não exijam autenticação ou seja 
+                        //.requestMatchers(HttpMethod.GET, "/**").permitAll() Pode ser necessário dependendo de como o frontend é servido
+                        //TODO: criar endpoints públicos para dados que não exijam autenticação
+                        //.requestMatchers("/public/**").permitAll() // Exemplo para dados públicos da API
+                        .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+
                         //Todas requisicoes exigirao autenticacao
                          .anyRequest().authenticated()
                 );
@@ -65,6 +70,10 @@ public class SecurityConfig{
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         //Definição dos cabeçalhos permitidos
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        //Permitir envio de credenciais (cookies, cabeçalhos de autorização, etc.)
+        configuration.setAllowCredentials(true);
+        //Definição do tempo máximo de cache da configuração CORS(1 Hora)
+        configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         //Aplicação da configuração de CORS para todos os ENDPOINTS da aplicação
@@ -74,7 +83,7 @@ public class SecurityConfig{
 
     /**
      * Este bean cria uma instância do BCryptPasswordEncoder, que é o algoritmo
-     * recomendado para fazer o hash de senhas. Ele será injetado nos seus serviços.
+     * recomendado para fazer o hash de senhas. Ele será injetado nos serviços.
      */
     @Bean
     public PasswordEncoder passwordEncoder(){

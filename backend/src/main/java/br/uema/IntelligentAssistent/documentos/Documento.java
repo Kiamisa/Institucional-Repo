@@ -1,6 +1,6 @@
 package br.uema.IntelligentAssistent.documentos;
 
-import br.uema.IntelligentAssistent.setores.Setor;
+import br.uema.IntelligentAssistent.programas.Programa;
 import br.uema.IntelligentAssistent.usuarios.Usuario;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -28,8 +28,8 @@ public class Documento {
     private String caminhoArquivo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "setor_id", nullable = false)
-    private Setor setor;
+    @JoinColumn(name = "programa_id", nullable = false)
+    private Programa programa;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
