@@ -25,6 +25,15 @@ public class UsuarioService {
     }
 
     public Usuario criar(Usuario usuario){
+
+        if (usuario.getEmail() == null || !usuario.getEmail().endsWith("@ppg.uema.br")){
+            throw new RuntimeException("Email inválido para cadastro.");
+        }
+
+        if (usuarioRepository.findByEmail(usuario.getEmail()).isPresent()){
+            throw new RuntimeException("Já existe um usuário cadastrado com este email.");
+        }
+
         usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
         return usuarioRepository.save(usuario);
     }
@@ -33,8 +42,11 @@ public class UsuarioService {
         Usuario usuarioExistente = buscarPorId(id);
 
         usuarioExistente.setNome(usuarioDetails.getNome());
-        usuarioExistente.setEmail(usuarioDetails.getEmail());
+        //Não permite atualizar email para evitar conflitos
+
+        //usuarioExistente.setEmail(usuarioDetails.getEmail());
         usuarioExistente.setPerfil(usuarioDetails.getPerfil());
+        //Será refatorado, talvez tenha que ser retirado e a atualização será somente em documentos
         usuarioExistente.setSetor(usuarioDetails.getSetor());
 
         if (StringUtils.hasText(usuarioDetails.getSenha())){
