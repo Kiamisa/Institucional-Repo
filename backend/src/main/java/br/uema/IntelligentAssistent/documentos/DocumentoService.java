@@ -29,7 +29,7 @@ public class DocumentoService {
         documentoExistente.setTitulo(documentoDetails.getTitulo());
         documentoExistente.setDescricao(documentoDetails.getDescricao());
         documentoExistente.setTipo(documentoDetails.getTipo());
-        documentoExistente.setSetor(documentoDetails.getSetor());
+        documentoExistente.setPrograma(documentoDetails.getPrograma ());
 
         return documentoRepository.save(documentoExistente);
     }

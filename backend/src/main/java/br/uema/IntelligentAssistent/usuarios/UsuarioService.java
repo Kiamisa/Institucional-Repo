@@ -47,7 +47,7 @@ public class UsuarioService {
         //usuarioExistente.setEmail(usuarioDetails.getEmail());
         usuarioExistente.setPerfil(usuarioDetails.getPerfil());
         //Será refatorado, talvez tenha que ser retirado e a atualização será somente em documentos
-        usuarioExistente.setSetor(usuarioDetails.getSetor());
+        usuarioExistente.setPrograma(usuarioDetails.getPrograma());
 
         if (StringUtils.hasText(usuarioDetails.getSenha())){
             usuarioExistente.setSenha(passwordEncoder.encode(usuarioDetails.getSenha()));
