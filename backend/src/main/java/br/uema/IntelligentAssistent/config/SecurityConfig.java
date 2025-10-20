@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -39,9 +40,14 @@ public class SecurityConfig{
                 //Definindo as regras de autorização para fazer as requisições
                 .authorizeHttpRequests(authorize -> authorize
                 // Permissao para o endpoint de login
-                         .requestMatchers("/auth/**").permitAll()
-                        //IMPORTANTE: Caso seja necessário criar um usuario
-                                .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        //IMPORTANTE: Essa linha permitirá que usuários não cadastrados possam visualizar a página sem autenticação
+                        //TODO: Criar páginas para notícias, editais, eventos e contatos que não exijam autenticação ou seja 
+                        //.requestMatchers(HttpMethod.GET, "/**").permitAll() Pode ser necessário dependendo de como o frontend é servido
+                        //TODO: criar endpoints públicos para dados que não exijam autenticação
+                        //.requestMatchers("/public/**").permitAll() // Exemplo para dados públicos da API
+                        .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+
                         //Todas requisicoes exigirao autenticacao
                          .anyRequest().authenticated()
                 );
