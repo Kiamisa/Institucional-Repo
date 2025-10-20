@@ -1,4 +1,4 @@
-package br.uema.IntelligentAssistent.setores;
+package br.uema.IntelligentAssistent.programas;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -7,8 +7,8 @@ import java.time.OffsetDateTime;
 
 @Data //Anotação para gerar Getters, Setters, toString, etc.
 @Entity
-@Table(name = "setores")
-public class Setor {
+@Table(name = "programas")
+public class Programa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

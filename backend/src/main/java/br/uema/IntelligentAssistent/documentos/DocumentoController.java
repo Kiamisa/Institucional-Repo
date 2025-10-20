@@ -19,7 +19,7 @@ public class DocumentoController {
         return documentoService.listarTodos();
     }
 
-    //Endpoint para busca de um documento pelo ID (GET /setores/{id})
+    //Endpoint para busca de um documento pelo ID (GET /programas/{id})
     @GetMapping("/{id}")
     public ResponseEntity<Documento> buscarDocumentoPorId(@PathVariable Long id) {
         Documento documento = documentoService.buscarPorId(id);

@@ -1,6 +1,6 @@
 package br.uema.IntelligentAssistent.usuarios;
 
-import br.uema.IntelligentAssistent.setores.Setor;
+import br.uema.IntelligentAssistent.programas.Programa;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -25,8 +25,8 @@ public class Usuario {
     private String senha;
 
     @ManyToOne(fetch = FetchType.LAZY)//relacionamento
-    @JoinColumn(name = "setor_id", nullable = false) //Mapeamento da chave estrangeira
-    private Setor setor;
+    @JoinColumn(name = "programa_id", nullable = false) //Mapeamento da chave estrangeira
+    private Programa programa;
 
     @Column(nullable = false)
     private String perfil;
