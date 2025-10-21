@@ -34,8 +34,8 @@ O sistema combina **backend Java (Spring Boot)** e **frontend Vue.js**, com inte
 
 ```bash
 cd backend
-mvn clean install
-mvn spring-boot:run
+./gradlew clean build
+./gradlew bootRun
 ````
 
 > Servidor iniciado em: [http://localhost:8080](http://localhost:8080)
