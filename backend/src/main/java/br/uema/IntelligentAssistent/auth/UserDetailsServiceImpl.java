@@ -19,13 +19,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private UsuarioRepository usuarioRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepository.findByEmail(email)
-                .orElseThrow(()-> new UsernameNotFoundException("Não foi possível encontrar um utilizador com o email: " + email));
-        List<SimpleGrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + usuario.getPerfil()));
+                .orElseThrow(() -> new UsernameNotFoundException(
+                        "Não foi possível encontrar um utilizador com o email: " + email));
+        List<SimpleGrantedAuthority> authorities = Collections
+                .singletonList(new SimpleGrantedAuthority("ROLE_" + usuario.getPerfil()));
 
-        // Converte o nosso objeto 'Usuario' para o objeto 'UserDetails' que o Spring Security entende
-        return new User(usuario.getEmail(), usuario.getSenha(), Collections.emptyList());
+        // Converte o nosso objeto 'Usuario' para o objeto 'UserDetails' que o Spring
+        // Security entende
+        // Passa a lista de authorities para que o Spring Security conheça as roles do
+        // utilizador
+        return new User(usuario.getEmail(), usuario.getSenha(), authorities);
     }
 
 }
