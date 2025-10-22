@@ -22,6 +22,11 @@
           </form>
         </div>
     </div>
+    <div class="text-center mt-4">
+    <router-link to="/register" class="inline-block align-baseline font-bold text-sm text-blue-600 hover:text-blue-800">
+      Não tem conta? Registe-se aqui
+    </router-link>
+    </div>
 </template>
 
 <script>
