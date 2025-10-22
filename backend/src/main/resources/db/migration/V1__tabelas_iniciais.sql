@@ -12,7 +12,7 @@ CREATE TABLE usuarios (
                           nome VARCHAR(255) NOT NULL,
                           email VARCHAR(255) NOT NULL UNIQUE,
                           senha VARCHAR(255) NOT NULL,
-                          setor_id BIGINT REFERENCES programas(id),
+                          programa_id BIGINT REFERENCES programas(id),
                           perfil VARCHAR(50) NOT NULL, -- Ex: 'ADMIN', 'GESTOR', 'USUARIO','FUNCIONARIO', 'PROFESOR', 'ALUNO'
                           created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -24,7 +24,7 @@ CREATE TABLE documentos (
                             descricao TEXT,
                             tipo VARCHAR(100) NOT NULL, -- Ex: 'EDITAL_SELECAO', 'DISSERTACAO', 'ARTIGO'
                             caminho_arquivo VARCHAR(255) NOT NULL,
-                            setor_id BIGINT NOT NULL REFERENCES programas(id),
+                            programa_id BIGINT NOT NULL REFERENCES programas(id),
                             usuario_id BIGINT NOT NULL REFERENCES usuarios(id),
                             created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
                             updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
