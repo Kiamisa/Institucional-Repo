@@ -20,6 +20,8 @@
           <input type="password" id="password" v-model="senha" placeholder="Crie uma senha forte" required minlength="6"
                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
         </div>
+        <!-- Futuramente, adicionar campo para selecionar o Programa -->
+
         <div v-if="errorMessage" class="mb-4 text-red-500 text-sm text-center">
           {{ errorMessage }}
         </div>
@@ -39,10 +41,12 @@
           Já tem conta? Faça Login
         </router-link>
       </div>
+      <!-- O link redundante para /register foi removido daqui -->
     </div>
   </div>
 </template>
 
+<!-- O bloco <script> e <style> permanecem os mesmos -->
 <script>
 import apiClient from '@/services/api';
 import { RouterLink } from 'vue-router';
@@ -57,7 +61,6 @@ export default {
       nome: '',
       email: '',
       senha: '',
-      // TODO: Adicionar programaId quando refatorarmos backend
       errorMessage: null,
       successMessage: null
     };
@@ -71,41 +74,31 @@ export default {
         this.errorMessage = 'Por favor, preencha todos os campos.';
         return;
       }
-
-      // Validação extra de email no frontend (o backend já valida, mas é bom ter aqui também)
       if (!this.email.endsWith('@ppg.uema.br')) {
          this.errorMessage = 'O email deve ser do domínio @ppg.uema.br.';
          return;
       }
 
       try {
-        // Ajustar o objeto enviado conforme a entidade Usuario no backend
-        // Precisaremos do ID do programa aqui
         await apiClient.post('/usuarios', {
           nome: this.nome,
           email: this.email,
           senha: this.senha,
-          perfil: 'USUARIO', // Ou um perfil padrão, ajustar conforme necessário
-          programa: { id: 1 } // <<< TEMPORÁRIO: Assumindo ID 1 para o primeiro programa. Idealmente, teríamos um select.
+          perfil: 'USUARIO', // Perfil padrão inicial
+          programa: { id: 1 } // TEMPORÁRIO
         });
 
         this.successMessage = 'Registo realizado com sucesso! Faça o login.';
-        // Limpar o formulário (opcional)
         this.nome = '';
         this.email = '';
         this.senha = '';
 
-        // Redirecionar para o login após um tempo (opcional)
-        // setTimeout(() => {
-        //   this.$router.push('/login');
-        // }, 2000);
-
       } catch (error) {
         console.error('Erro ao registar:', error);
         if (error.response && error.response.data && typeof error.response.data === 'string') {
-           this.errorMessage = error.response.data; // Se o backend retornar uma mensagem de erro simples
+           this.errorMessage = error.response.data;
         } else if (error.response && error.response.data && error.response.data.message) {
-           this.errorMessage = error.response.data.message; // Se o backend retornar um objeto com 'message'
+           this.errorMessage = error.response.data.message;
         } else {
            this.errorMessage = 'Erro ao registar. Verifique os dados ou tente novamente mais tarde.';
         }
@@ -116,8 +109,7 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos adicionais específicos podem ir aqui, mas Tailwind deve cobrir a maior parte */
 input:invalid {
-  border-color: red; /* Exemplo: Borda vermelha para email inválido no frontend */
+  border-color: red;
 }
 </style>
