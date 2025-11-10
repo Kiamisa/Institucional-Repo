@@ -43,10 +43,10 @@ public class SecurityConfig{
                         .requestMatchers("/auth/**").permitAll()
                         //IMPORTANTE: Essa linha permitirá que usuários não cadastrados possam visualizar a página sem autenticação
                         //TODO: Criar páginas para notícias, editais, eventos e contatos que não exijam autenticação ou seja 
-                        //.requestMatchers(HttpMethod.GET, "/**").permitAll() Pode ser necessário dependendo de como o frontend é servido
+                        .requestMatchers(HttpMethod.GET, "/**").permitAll() //Pode ser necessário dependendo de como o frontend é servido
                         //TODO: criar endpoints públicos para dados que não exijam autenticação
                         //.requestMatchers("/public/**").permitAll() // Exemplo para dados públicos da API
-                        .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/**").permitAll()
 
                         //Todas requisicoes exigirao autenticacao
                          .anyRequest().authenticated()
